@@ -4,12 +4,15 @@ import { useState, useEffect } from 'react';
 import MobileFrame from '@/component/layout/MobileFrame';
 import { usePsyStore, useQuestionStore } from '@/app/store/store';
 import Image from 'next/image';
+
+// 修正圖片路徑 - 使用 Next.js 推薦的靜態資源路徑
 import cdBg from '@/../public/cdbg.png';
-import result1Img from '@/../public/1.png';
-import result2Img from '@/../public/2.png';
-import result3Img from '@/../public/3.png';
-import result4Img from '@/../public/4.png';
-import result5Img from '@/../public/5.png';
+const bgImg = '/cdbg.png';
+const result1Img = '/1.png';
+const result2Img = '/2.png';
+const result3Img = '/3.png';
+const result4Img = '/4.png';
+const result5Img = '/5.png';
 
 export default function ResultPage() {
   const psyState = usePsyStore((state) => state);
@@ -63,7 +66,8 @@ export default function ResultPage() {
         subtitle: "王心凌《愛你》",
         description: "你被訓練得很好，懂得表演、知道何時該唱什麼，但內在聲音常常被蓋過。",
         suggestion: "✨ 建議：唱給沒人聽的你，會不一樣。",
-        score: "7-14分"
+        score: "7-14分",
+        spotifyUrl: "https://open.spotify.com/track/6T7oK4eP3Tezw4Ogy7q6KO?si=4004e6cadfcf49f2"
       };
     } else if (psyState.score >= 15 && psyState.score <= 21) {
       return {
@@ -72,7 +76,8 @@ export default function ResultPage() {
         subtitle: "周杰倫《夜曲》",
         description: "你擁有大量音樂記憶，懂得分類與保存，但偶爾也會困在過去的播放清單裡。",
         suggestion: "✨ 提醒：新的你，也值得一首新歌。",
-        score: "15-21分"
+        score: "15-21分",
+        spotifyUrl: "https://open.spotify.com/track/5rzlpdJ1LDX5VcARtsPKC8?si=1555ea9104194449"
       };
     } else if (psyState.score >= 22 && psyState.score <= 28) {
       return {
@@ -81,7 +86,8 @@ export default function ResultPage() {
         subtitle: "蔡依林《天空》",
         description: "你把傷痕拼成旋律，把錯拍當成節奏，是用「不完美」寫自己的專輯作者。",
         suggestion: "✨ 問題是：你願意讓別人聽到這張專輯嗎？",
-        score: "22-28分"
+        score: "22-28分",
+        spotifyUrl: "https://open.spotify.com/track/0mBAfQuVGW2YHZvUM2NsLb?si=735330239dfc4920"
       };
     } else if (psyState.score >= 29 && psyState.score <= 35) {
       return {
@@ -90,16 +96,18 @@ export default function ResultPage() {
         subtitle: "孫燕姿《雨天》",
         description: "你總是讓那些被壓下的聲音偷偷播出，熟悉怎麼把自己藏在別人的歌詞裡。",
         suggestion: "✨ 也許，是時候開自己的頻道了。",
-        score: "29-35分"
+        score: "29-35分",
+        spotifyUrl: "https://open.spotify.com/track/5tZbcQ5PYID0xB0VNblmrK?si=a393e1bc46f44839"
       };
     } else {
       return {
         image: result5Img,
         title: "🔮 靜音混音",
-        subtitle: "王菲《寓言》",
+        subtitle: "王菲《人間》",
         description: "你最懂什麼話該不說，什麼聲音該靜音。你用「不發聲」來創造一種超然的存在。",
         suggestion: "✨ 或許，沉默本身就是你的樂器。",
-        score: "36-49分"
+        score: "36-49分",
+        spotifyUrl: "https://open.spotify.com/track/1u25V63Qw64EkVh90Jyrmh?si=2085354e389649cc"
       };
     }
   };
@@ -207,31 +215,69 @@ export default function ResultPage() {
                   </div>
                 </div>
 
-                {/* 結果圖片 - 調整大小和間距 */}
+                {/* 結果圖片 - 調整大小和間距，添加 Spotify 連結 */}
                 <div className={`flex justify-center mb-4 transition-all duration-700 ease-out delay-400
                                 ${isVisible ? 'opacity-100 transform translate-y-0 scale-100' : 
                                   'opacity-0 transform translate-y-6 scale-95'}`}>
                   <div className="relative group">
-                    {/* 圖片容器 */}
-                    <div className="w-28 h-28 bg-gradient-to-br from-amber-100/80 via-yellow-100/75 to-orange-100/80 
-                                  rounded-2xl shadow-lg border-2 border-amber-200/60 overflow-hidden
-                                  group-hover:shadow-xl transition-all duration-300 relative">
-                      {/* 光效 */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent 
-                                    opacity-0 group-hover:opacity-100 transition-opacity duration-500 
-                                    translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
-                      <Image 
-                        src={resultData.image} 
-                        alt={resultData.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
-                        width={112}
-                        height={112}
-                        priority
-                      />
-                    </div>
+                    {/* 可點擊的圖片連結 */}
+                    <a 
+                      href={resultData.spotifyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block relative group/link"
+                      title="在 Spotify 上聆聽這首歌"
+                    >
+                      {/* 圖片容器 */}
+                      <div className="w-28 h-28 bg-gradient-to-br from-amber-100/80 via-yellow-100/75 to-orange-100/80 
+                                    rounded-2xl shadow-lg border-2 border-amber-200/60 overflow-hidden
+                                    group-hover/link:shadow-xl transition-all duration-300 relative
+                                    group-hover/link:scale-105 group-hover/link:border-green-400/60">
+                        {/* Spotify 綠色光效 - 懸停時出現 */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-green-400/0 via-green-400/20 to-green-400/0 
+                                      opacity-0 group-hover/link:opacity-100 transition-opacity duration-500 
+                                      translate-x-[-100%] group-hover/link:translate-x-[100%] transition-transform duration-1000"></div>
+                        
+                        {/* 原有光效 */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent 
+                                      opacity-0 group-hover/link:opacity-100 transition-opacity duration-500 
+                                      translate-x-[-100%] group-hover/link:translate-x-[100%] transition-transform duration-1000"></div>
+                        
+                        <Image 
+                          src={resultData.image} 
+                          alt={resultData.title}
+                          className="w-full h-full object-cover group-hover/link:scale-105 transition-all duration-500"
+                          width={112}
+                          height={112}
+                          priority
+                        />
+                        
+                        {/* Spotify 圖標提示 - 懸停時顯示 */}
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/link:opacity-100 
+                                      transition-opacity duration-300 flex items-center justify-center">
+                          <div className="text-green-400 text-2xl transform scale-75 group-hover/link:scale-100 
+                                        transition-transform duration-300">
+                            🎵
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Spotify 提示標籤 */}
+                      <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 
+                                    bg-green-500 text-white text-xs px-2 py-1 rounded-full 
+                                    opacity-0 group-hover/link:opacity-100 transition-all duration-300
+                                    translate-y-2 group-hover/link:translate-y-0 pointer-events-none
+                                    shadow-lg border border-green-400">
+                        <span className="whitespace-nowrap">在 Spotify 聆聽</span>
+                        {/* 小箭頭 */}
+                        <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 
+                                      w-2 h-2 bg-green-500 rotate-45 border-l border-t border-green-400"></div>
+                      </div>
+                    </a>
+                    
                     {/* 裝飾音符 */}
-                    <div className="absolute -top-2 -right-2 text-amber-600/60 text-base animate-bounce">♪</div>
-                    <div className="absolute -bottom-2 -left-2 text-orange-600/60 text-xs animate-pulse delay-300">♫</div>
+                    <div className="absolute -top-2 -right-2 text-amber-600/60 text-base animate-bounce pointer-events-none">♪</div>
+                    <div className="absolute -bottom-2 -left-2 text-orange-600/60 text-xs animate-pulse delay-300 pointer-events-none">♫</div>
                   </div>
                 </div>
 

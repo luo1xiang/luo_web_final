@@ -229,6 +229,12 @@ export default function StartPage({nextStep}) {
                 src={startBtn} 
                 alt='開始探險'
                 style={{animationDuration: '5s'}}
+                onClick={
+                  ()=>{
+                    const audio = new Audio("/bike.mp3");
+                    audio.play();
+                  }
+                }
                 sizes="144px"
               />
               
