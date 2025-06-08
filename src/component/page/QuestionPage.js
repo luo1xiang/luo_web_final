@@ -96,7 +96,7 @@ export default function QuestionPage({questionIndex, nextStep}) {
       description: "最後，你決定把哪首歌刻進人生黑膠？",
       backgroundImage: bg7,
       options: [
-        { title: "周杰倫《聽媽媽的話》──安穩、指引", value: 1 },
+        { title: "周杰倫《聽媽媽的話》──安穩的指引", value: 1 },
         { title: "蔡依林《我》──自我定義與斷裂", value: 3 },
         { title: "五月天《倔強》──承認脆弱的勇氣", value: 5 },
         { title: "王菲《紅豆》──選擇沉默與內斂", value: 7 }
