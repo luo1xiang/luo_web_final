@@ -55,7 +55,7 @@ export default function QuestionPage({questionIndex, nextStep}) {
         { title: "梁靜茹《可惜不是你》──那段不敢表白的守候", value: 1 },
         { title: "張韶涵《隱形的翅膀》──鼓起勇氣卻受傷", value: 3 },
         { title: "蔡依林《日不落》──被誤解的閃耀與努力", value: 5 },
-        { title: "蘇打綠《小情歌》（電子版）──自我翻修的過去", value: 7 }
+        { title: "蘇打綠《小情歌》──自我翻修的過去", value: 7 }
       ]
     },
     {
@@ -66,7 +66,7 @@ export default function QuestionPage({questionIndex, nextStep}) {
         { title: "孫燕姿《我不難過》──蓋過所有情緒的外表", value: 1 },
         { title: "周杰倫《以父之名》──將痛苦敘事換成戲劇", value: 3 },
         { title: "五月天《OAOA》──編輯進自己的快樂版本", value: 5 },
-        { title: "林憶蓮《至少還有你》（無歌詞版）──只留旋律，不留語意", value: 7 }
+        { title: "林憶蓮《至少還有你》──只留旋律，不留語意", value: 7 }
       ]
     },
     {
@@ -99,7 +99,7 @@ export default function QuestionPage({questionIndex, nextStep}) {
         { title: "周杰倫《聽媽媽的話》──安穩、指引", value: 1 },
         { title: "蔡依林《我》──自我定義與斷裂", value: 3 },
         { title: "五月天《倔強》──承認脆弱的勇氣", value: 5 },
-        { title: "王菲《紅豆》（靜音版）──選擇沉默與內斂", value: 7 }
+        { title: "王菲《紅豆》──選擇沉默與內斂", value: 7 }
       ]
     }
   ];
