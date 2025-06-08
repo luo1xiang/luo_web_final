@@ -79,7 +79,6 @@ export default function ResultPage() {
         subtitle: "王心凌《愛你》",
         description: "你善於演出、懂得配合節奏，總能說出「對的話」，但也容易忽略自己的聲音。",
         suggestion: "✨ 建議：唱一首只屬於自己的歌吧",
-        score: "7-14分",
         spotifyUrl: "https://open.spotify.com/track/6T7oK4eP3Tezw4Ogy7q6KO?si=4004e6cadfcf49f2"
       };
     } else if (psyState.score >= 15 && psyState.score <= 21) {
@@ -89,7 +88,6 @@ export default function ResultPage() {
         subtitle: "周杰倫《夜曲》",
         description: "你是記憶的收藏家，喜歡回放那些熟悉的旋律，也容易卡在昨天的歌單裡。",
         suggestion: "✨ 提醒：新的你，也值得一首新歌。",
-        score: "15-21分",
         spotifyUrl: "https://open.spotify.com/track/5rzlpdJ1LDX5VcARtsPKC8?si=1555ea9104194449"
       };
     } else if (psyState.score >= 22 && psyState.score <= 28) {
@@ -99,7 +97,6 @@ export default function ResultPage() {
         subtitle: "蔡依林《天空》",
         description: "你把傷痕拼成旋律，把錯拍當成節奏，是用「不完美」寫自己的專輯作者。",
         suggestion: "✨ 問題是：你願意讓別人聽到這張專輯嗎？",
-        score: "22-28分",
         spotifyUrl: "https://open.spotify.com/track/0mBAfQuVGW2YHZvUM2NsLb?si=735330239dfc4920"
       };
     } else if (psyState.score >= 29 && psyState.score <= 35) {
@@ -109,7 +106,6 @@ export default function ResultPage() {
         subtitle: "孫燕姿《雨天》",
         description: "你總是讓那些被壓下的聲音偷偷播出，熟悉怎麼把自己藏在別人的歌詞裡。",
         suggestion: "✨ 也許，是時候開自己的頻道了。",
-        score: "29-35分",
         spotifyUrl: "https://open.spotify.com/track/5tZbcQ5PYID0xB0VNblmrK?si=a393e1bc46f44839"
       };
     } else {
@@ -119,7 +115,6 @@ export default function ResultPage() {
         subtitle: "王菲《人間》",
         description: "你最懂什麼話該不說，什麼聲音該靜音。你用「不發聲」來創造一種超然的存在。",
         suggestion: "✨ 或許，沉默不是消失，而是你的樂器。",
-        score: "36-49分",
         spotifyUrl: "https://open.spotify.com/track/1u25V63Qw64EkVh90Jyrmh?si=2085354e389649cc"
       };
     }
