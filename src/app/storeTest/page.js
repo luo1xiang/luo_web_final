@@ -1,126 +1,194 @@
-import { create } from 'zustand';
+'use client';
 
-// 心理測驗分數 Store
-export const usePsyStore = create((set, get) => ({
-  score: 0,
-  minScore: 7,  // 7題 × 1分
-  maxScore: 49, // 7題 × 7分
-  
-  updateScore: (newScore) => set({ score: newScore }),
-  resetScore: () => set({ score: 0 }),
-  
-  // 根據分數獲取結果分析
-  getResult: () => {
-    const score = get().score;
-    
-    if (score >= 7 && score <= 14) {
-      return {
-        type: 'KTV順唱',
-        emoji: '🌈',
-        theme: '王心凌《愛你》',
-        description: '你被訓練得很好，懂得表演、知道何時該唱什麼，但內在聲音常常被蓋過。',
-        suggestion: '✨ 建議：唱給沒人聽的你，會不一樣。',
-        scoreRange: '7-14分'
-      };
-    } else if (score >= 15 && score <= 21) {
-      return {
-        type: '懷舊記憶',
-        emoji: '🎞',
-        theme: '周杰倫《夜曲》',
-        description: '你擁有大量音樂記憶，懂得分類與保存，但偶爾也會困在過去的播放清單裡。',
-        suggestion: '✨ 提醒：新的你，也值得一首新歌。',
-        scoreRange: '15-21分'
-      };
-    } else if (score >= 22 && score <= 28) {
-      return {
-        type: '聲音拼貼',
-        emoji: '🔊',
-        theme: '蔡依林《天空》',
-        description: '你把傷痕拼成旋律，把錯拍當成節奏，是用「不完美」寫自己的專輯作者。',
-        suggestion: '✨ 問題是：你願意讓別人聽到這張專輯嗎？',
-        scoreRange: '22-28分'
-      };
-    } else if (score >= 29 && score <= 35) {
-      return {
-        type: '潛意識電台',
-        emoji: '🧬',
-        theme: '孫燕姿《雨天》',
-        description: '你總是讓那些被壓下的聲音偷偷播出，熟悉怎麼把自己藏在別人的歌詞裡。',
-        suggestion: '✨ 也許，是時候開自己的頻道了。',
-        scoreRange: '29-35分'
-      };
-    } else if (score >= 36 && score <= 49) {
-      return {
-        type: '靜音混音',
-        emoji: '🔮',
-        theme: '王菲《寓言》',
-        description: '你最懂什麼話該不說，什麼聲音該靜音。你用「不發聲」來創造一種超然的存在。',
-        suggestion: '✨ 或許，沉默本身就是你的樂器。',
-        scoreRange: '36-49分'
-      };
-    } else {
-      // 預設情況
-      return {
-        type: '未知音域',
-        emoji: '🎵',
-        theme: '神秘樂章',
-        description: '你的聲音超出了預期的範圍，也許你正在創造全新的音樂類型。',
-        suggestion: '✨ 繼續探索你獨特的聲音吧！',
-        scoreRange: `${score}分`
-      };
-    }
-  }
-}));
+import { useEffect } from 'react';
+import { useMusicStore } from '@/app/store/store';
+// 如果你有其他組件，也可以在這裡引入
+// import MusicController from '@/component/others/MusicController';
 
-// 問題進度管理 Store
-export const useQuestionStore = create((set, get) => ({
-  currentQuestion: 0,
-  totalQuestions: 7,
-  answers: [],
-  isCompleted: false,
-  
-  // 進入下一題
-  nextQuestion: () => set((state) => {
-    const nextIndex = state.currentQuestion + 1;
-    return {
-      currentQuestion: nextIndex,
-      isCompleted: nextIndex >= state.totalQuestions
+export default function StoreTestPage() {
+  // 使用音樂 store
+  const {
+    isPlaying,
+    isMuted,
+    volume,
+    isLoaded,
+    initMusic,
+    toggleMusic,
+    toggleMute,
+    setVolume,
+    tryPlayAfterInteraction
+  } = useMusicStore();
+
+  // 初始化音樂
+  useEffect(() => {
+    console.log('📱 StoreTest 頁面載入，初始化音樂');
+    initMusic();
+  }, []);
+
+  // 處理用戶互動
+  useEffect(() => {
+    const handleUserInteraction = () => {
+      console.log('👆 用戶點擊頁面');
+      tryPlayAfterInteraction();
     };
-  }),
-  
-  // 重置所有問題 - 確保完全重置
-  resetQuestions: () => set({ 
-    currentQuestion: 0, 
-    answers: [],
-    isCompleted: false
-  }),
-  
-  // 新增答案記錄
-  addAnswer: (answer) => set((state) => ({
-    answers: [...state.answers, answer]
-  })),
-  
-  // 檢查是否完成所有問題
-  getIsCompleted: () => {
-    const state = get();
-    return state.currentQuestion >= state.totalQuestions || state.answers.length >= state.totalQuestions;
-  },
-  
-  // 獲取當前進度百分比
-  getProgress: () => {
-    const state = get();
-    return Math.round((state.answers.length / state.totalQuestions) * 100);
-  },
-  
-  // 檢查是否還有下一題
-  hasNextQuestion: () => {
-    const state = get();
-    return state.currentQuestion < state.totalQuestions - 1;
-  },
-  
-  // 獲取當前問題索引（安全版本）
-  getCurrentQuestionIndex: () => {
-    const state = get();
-    return Math.min(state.currentQuestion, state.totalQuestions - 1);
-  }
-}));
+
+    // 監聽點擊事件
+    document.addEventListener('click', handleUserInteraction);
+    document.addEventListener('touchstart', handleUserInteraction);
+    
+    return () => {
+      document.removeEventListener('click', handleUserInteraction);
+      document.removeEventListener('touchstart', handleUserInteraction);
+    };
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 p-8">
+      {/* 音樂控制面板 - 固定在右上角 */}
+      <div className="fixed top-4 right-4 z-50 bg-white/90 backdrop-blur-md rounded-2xl p-4 shadow-lg border border-amber-200">
+        <div className="text-center mb-3">
+          <h3 className="text-sm font-bold text-amber-800">🎵 音樂控制</h3>
+        </div>
+        
+        <div className="flex flex-col space-y-2">
+          {/* 播放/暫停按鈕 */}
+          <button
+            onClick={toggleMusic}
+            className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-lg font-medium transition-all duration-300 transform hover:scale-105"
+          >
+            {isPlaying ? '⏸️ 暫停' : '▶️ 播放'}
+          </button>
+          
+          {/* 靜音按鈕 */}
+          <button
+            onClick={toggleMute}
+            className="px-4 py-2 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white rounded-lg font-medium transition-all duration-300 transform hover:scale-105"
+          >
+            {isMuted ? '🔊 取消靜音' : '🔇 靜音'}
+          </button>
+          
+          {/* 音量控制 */}
+          <div className="flex flex-col space-y-1">
+            <label className="text-xs text-amber-700 font-medium">音量</label>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.1"
+              value={volume}
+              onChange={(e) => setVolume(parseFloat(e.target.value))}
+              className="w-full h-2 bg-amber-200 rounded-lg appearance-none cursor-pointer"
+            />
+            <span className="text-xs text-amber-600 text-center">
+              {Math.round(volume * 100)}%
+            </span>
+          </div>
+        </div>
+        
+        {/* 狀態顯示 */}
+        <div className="mt-3 pt-3 border-t border-amber-200 text-xs text-amber-700 space-y-1">
+          <div>載入: {isLoaded ? '✅' : '⏳'}</div>
+          <div>播放: {isPlaying ? '▶️' : '⏸️'}</div>
+          <div>音量: {isMuted ? '🔇' : '🔊'}</div>
+        </div>
+        
+        <div className="mt-2 text-xs text-gray-500 text-center">
+          點擊頁面任意位置啟動音樂
+        </div>
+      </div>
+
+      {/* 主要內容區域 */}
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-4xl font-bold text-center text-amber-800 mb-8">
+          🎵 午夜唱片行測試頁面
+        </h1>
+        
+        {/* 提示卡片 */}
+        <div className="bg-white/80 rounded-2xl p-6 shadow-lg border border-amber-200 mb-8">
+          <h2 className="text-2xl font-semibold text-amber-700 mb-4">音樂測試說明</h2>
+          <div className="space-y-3 text-amber-600">
+            <p>1. 確保 <code className="bg-amber-100 px-2 py-1 rounded">bike.mp3</code> 檔案在 <code className="bg-amber-100 px-2 py-1 rounded">public</code> 資料夾中</p>
+            <p>2. 點擊右上角的播放按鈕開始播放音樂</p>
+            <p>3. 打開開發者工具 (F12) 查看 Console 訊息</p>
+            <p>4. 點擊頁面任意位置也可以啟動音樂</p>
+          </div>
+        </div>
+
+        {/* 測試區域 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* 測試按鈕區域 */}
+          <div className="bg-white/80 rounded-2xl p-6 shadow-lg border border-amber-200">
+            <h3 className="text-xl font-semibold text-amber-700 mb-4">測試操作</h3>
+            <div className="space-y-3">
+              <button
+                onClick={() => console.log('🧪 測試按鈕被點擊')}
+                className="w-full px-4 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
+              >
+                🧪 測試按鈕 (查看 Console)
+              </button>
+              
+              <button
+                onClick={() => {
+                  console.log('🔍 檢查音樂狀態:', { isPlaying, isMuted, volume, isLoaded });
+                }}
+                className="w-full px-4 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium transition-colors"
+              >
+                🔍 檢查音樂狀態
+              </button>
+              
+              <button
+                onClick={() => {
+                  fetch('/bike.mp3')
+                    .then(response => {
+                      console.log('📁 檔案檢查結果:', response.status, response.statusText);
+                      if (response.ok) {
+                        console.log('✅ bike.mp3 檔案存在且可訪問');
+                      } else {
+                        console.log('❌ bike.mp3 檔案無法訪問');
+                      }
+                    })
+                    .catch(error => {
+                      console.error('❌ 檔案檢查失敗:', error);
+                    });
+                }}
+                className="w-full px-4 py-3 bg-purple-500 hover:bg-purple-600 text-white rounded-lg font-medium transition-colors"
+              >
+                📁 檢查音樂檔案
+              </button>
+            </div>
+          </div>
+
+          {/* 說明區域 */}
+          <div className="bg-white/80 rounded-2xl p-6 shadow-lg border border-amber-200">
+            <h3 className="text-xl font-semibold text-amber-700 mb-4">調試資訊</h3>
+            <div className="space-y-2 text-sm">
+              <div className="bg-amber-50 p-3 rounded-lg">
+                <strong>當前狀態:</strong>
+                <ul className="mt-2 space-y-1 text-amber-700">
+                  <li>• 音樂載入: {isLoaded ? '✅ 完成' : '⏳ 載入中'}</li>
+                  <li>• 播放狀態: {isPlaying ? '▶️ 播放中' : '⏸️ 已暫停'}</li>
+                  <li>• 靜音狀態: {isMuted ? '🔇 已靜音' : '🔊 正常'}</li>
+                  <li>• 音量設定: {Math.round(volume * 100)}%</li>
+                </ul>
+              </div>
+              
+              <div className="bg-blue-50 p-3 rounded-lg">
+                <strong>注意事項:</strong>
+                <ul className="mt-2 space-y-1 text-blue-700 text-xs">
+                  <li>• 現代瀏覽器需要用戶互動才能播放音樂</li>
+                  <li>• 請確保音樂檔案路徑正確</li>
+                  <li>• 查看 Console 獲取詳細調試信息</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 你的其他內容可以在這裡繼續添加 */}
+        <div className="mt-8 text-center text-amber-600">
+          <p>這是 StoreTest 頁面，用於測試音樂功能和其他 Store 功能</p>
+        </div>
+      </div>
+    </div>
+  );
+}
