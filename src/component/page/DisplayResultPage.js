@@ -1,162 +1,212 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import MobileFrame from '@/component/layout/MobileFrame'
 import Image from 'next/image';
-import forestBg from '@/../public/forest.png';
+import cdBg from '@/../public/cdbg.png';
 
 export default function DisplayResultPage({nextStep}) {
 
+  // 动画状态控制
+  const [isVisible, setIsVisible] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
+  const [animationKey, setAnimationKey] = useState(0);
+
+  // 页面进入动画
+  useEffect(() => {
+    setIsVisible(false);
+    setIsExiting(false);
+    setAnimationKey(prev => prev + 1);
+    
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 50);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleNextStep = () => {
+    // 开始退出动画
+    setIsExiting(true);
+    
+    // 延迟执行页面切换
+    setTimeout(() => {
+      if (nextStep) {
+        nextStep();
+      }
+    }, 300);
+  };
+
   return (
-    <>
-      <MobileFrame>
-        {/* 森林背景圖片 */}
-        <div className="absolute inset-0">
-          <Image 
-            src={forestBg} 
-            alt="forest background" 
-            fill
-            className="object-cover opacity-85"
-            priority
-          />
+    <MobileFrame>
+      {/* CD背景圖片 - 調整位置避免切到，與question頁面一致 */}
+      <div className="fixed inset-0">
+        <Image 
+          src={cdBg} 
+          alt="vintage record background" 
+          fill
+          className="object-cover object-center"
+          style={{
+            objectPosition: 'center 40%', // 調整垂直位置，避免底部被切到
+          }}
+          priority
+        />
+      </div>
+      
+      {/* 動態光影效果層 - 與question頁面一致 */}
+      <div className="fixed inset-0 overflow-hidden">
+        {/* 旋轉光環 */}
+        <div className="absolute top-1/2 left-1/2 w-96 h-96 -translate-x-1/2 -translate-y-1/2">
+          <div className="w-full h-full rounded-full bg-gradient-to-r from-transparent via-white/3 to-transparent 
+                          animate-spin" style={{animationDuration: '20s'}}></div>
         </div>
         
-        {/* 神秘森林覆蓋層 */}
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-200 via-green-100 to-lime-200 opacity-60"></div>
+        {/* 浮動光點 */}
+        <div className="absolute top-20 left-10 w-2 h-2 bg-amber-300/20 rounded-full animate-pulse"></div>
+        <div className="absolute top-40 right-16 w-3 h-3 bg-yellow-300/25 rounded-full animate-bounce" style={{animationDelay: '1s'}}></div>
+        <div className="absolute bottom-32 left-20 w-1.5 h-1.5 bg-orange-300/20 rounded-full animate-pulse" style={{animationDelay: '2s'}}></div>
+        <div className="absolute bottom-48 right-8 w-2.5 h-2.5 bg-amber-300/25 rounded-full animate-bounce" style={{animationDelay: '0.5s'}}></div>
         
-        {/* 動態光影覆蓋層 */}
-        <div className="absolute inset-0 bg-gradient-to-tl from-green-300/40 via-emerald-200/30 to-lime-300/50 animate-pulse" style={{animationDuration: '4s'}}></div>
-        
-        {/* 森林魔法光芒掃過效果 */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent animate-pulse" style={{animationDuration: '6s', animationDelay: '1s'}}></div>
-        
-        {/* 森林精靈光點效果 */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute w-2 h-2 bg-emerald-400/80 rounded-full animate-bounce top-1/5 left-1/6 shadow-md" 
-               style={{animationDelay: '0s', animationDuration: '2.5s'}}></div>
-          <div className="absolute w-3 h-3 bg-green-400/90 rounded-full animate-bounce top-1/4 right-1/4 shadow-lg" 
-               style={{animationDelay: '0.5s', animationDuration: '3s'}}></div>
-          <div className="absolute w-2 h-2 bg-lime-400/70 rounded-full animate-bounce top-2/5 left-1/8 shadow-sm" 
-               style={{animationDelay: '1s', animationDuration: '2.8s'}}></div>
-          <div className="absolute w-3 h-3 bg-emerald-500/85 rounded-full animate-bounce top-3/5 right-1/6 shadow-lg" 
-               style={{animationDelay: '1.5s', animationDuration: '2.2s'}}></div>
-          <div className="absolute w-4 h-4 bg-green-300/95 rounded-full animate-bounce top-4/5 left-2/3 shadow-xl" 
-               style={{animationDelay: '2s', animationDuration: '3.5s'}}></div>
-          <div className="absolute w-2 h-2 bg-lime-300/60 rounded-full animate-bounce top-1/12 right-2/5 shadow-sm" 
-               style={{animationDelay: '2.5s', animationDuration: '4s'}}></div>
-          <div className="absolute w-3 h-3 bg-emerald-300/75 rounded-full animate-bounce top-5/6 right-1/3 shadow-lg" 
-               style={{animationDelay: '3s', animationDuration: '2.7s'}}></div>
-          <div className="absolute w-2 h-2 bg-green-500/80 rounded-full animate-bounce top-1/8 left-3/4 shadow-md" 
-               style={{animationDelay: '0.8s', animationDuration: '3.8s'}}></div>
-        </div>
-
-        {/* 森林能量波紋效果 */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* 中央自然能量源 */}
-          <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-emerald-300/30 rounded-full opacity-50 blur-3xl animate-pulse transform -translate-x-1/2 -translate-y-1/2" style={{animationDuration: '5s'}}></div>
-          <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-green-300/25 rounded-full opacity-40 blur-2xl animate-pulse transform -translate-x-1/2 -translate-y-1/2" style={{animationDelay: '1.5s', animationDuration: '6s'}}></div>
-          <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-lime-300/20 rounded-full opacity-30 blur-xl animate-pulse transform -translate-x-1/2 -translate-y-1/2" style={{animationDelay: '3s', animationDuration: '7s'}}></div>
+        {/* 波動效果 */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-200/5 to-transparent 
+                        animate-pulse" style={{animationDuration: '4s'}}></div>
+      </div>
+      
+      {/* 復古暖色調覆蓋層 - 與question頁面一致 */}
+      <div className="fixed inset-0 bg-gradient-to-b from-amber-900/20 via-orange-900/15 to-yellow-800/20"></div>
+      
+      {/* 可滾動的主要內容容器 - 添加页面切换动画 */}
+      <div className={`relative z-20 min-h-screen overflow-y-auto transition-all duration-500 ease-out
+                      ${isVisible && !isExiting ? 'opacity-100 transform translate-y-0 scale-100' : 
+                        isExiting ? 'opacity-0 transform -translate-y-8 scale-95' :
+                        'opacity-0 transform translate-y-8 scale-95'}`}
+           key={animationKey}>
+        <div className='flex flex-col items-center justify-center py-4 px-4 min-h-screen'>
           
-          {/* 擴散波紋 */}
-          <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-emerald-400/40 rounded-full opacity-40 animate-ping transform -translate-x-1/2 -translate-y-1/2" style={{animationDuration: '3s'}}></div>
-          <div className="absolute top-1/2 left-1/2 w-48 h-48 bg-green-400/35 rounded-full opacity-30 animate-ping transform -translate-x-1/2 -translate-y-1/2" style={{animationDelay: '1s', animationDuration: '4s'}}></div>
-          <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-lime-400/30 rounded-full opacity-25 animate-ping transform -translate-x-1/2 -translate-y-1/2" style={{animationDelay: '2s', animationDuration: '5s'}}></div>
-          
-          {/* 森林微風光束 */}
-          <div className="absolute w-1 h-32 bg-emerald-400/50 opacity-50 animate-pulse left-1/4 top-1/3 blur-sm rotate-12" style={{animationDuration: '4s'}}></div>
-          <div className="absolute w-1 h-28 bg-green-400/45 opacity-40 animate-pulse right-1/5 top-2/5 blur-sm -rotate-12" style={{animationDelay: '2s', animationDuration: '5s'}}></div>
-          <div className="absolute w-1 h-24 bg-lime-400/40 opacity-35 animate-pulse left-2/3 top-1/5 blur-sm rotate-45" style={{animationDelay: '1s', animationDuration: '3.5s'}}></div>
-        </div>
-
-        {/* 森林魔法光環 */}
-        <div className="absolute inset-0 flex justify-center items-center pointer-events-none">
-          <div className="w-[400px] h-[400px] border-2 border-emerald-300/30 rounded-full animate-spin opacity-30 shadow-xl" style={{animationDuration: '30s'}}></div>
-          <div className="absolute w-80 h-80 border border-green-300/25 rounded-full animate-spin opacity-25 shadow-lg" style={{animationDuration: '25s', animationDirection: 'reverse'}}></div>
-          <div className="absolute w-64 h-64 border border-lime-300/20 rounded-full animate-spin opacity-20 shadow-md" style={{animationDuration: '20s'}}></div>
-          <div className="absolute w-48 h-48 border border-emerald-400/15 rounded-full animate-spin opacity-15" style={{animationDuration: '15s', animationDirection: 'reverse'}}></div>
-        </div>
-
-        {/* 主要內容區域 */}
-        <div className="relative z-20 flex justify-center items-center h-full">
-          <div className="flex flex-col items-center gap-8 p-6 max-w-xs mx-auto">
+          {/* 主要內容容器 - 統一復古風格設計，與question頁面一致 */}
+          <div className={`w-full max-w-sm mx-auto relative transition-all duration-700 ease-out delay-100
+                          ${isVisible && !isExiting ? 'opacity-100 transform translate-y-0 rotate-0' : 
+                            isExiting ? 'opacity-0 transform translate-y-4 -rotate-2' :
+                            'opacity-0 transform translate-y-12 rotate-2'}`}>
             
-            {/* 標題區域 - 森林揭曉效果 */}
-            <div className="relative group">
-              <div className="absolute -inset-4 bg-emerald-400/25 rounded-2xl blur-lg opacity-50 animate-pulse group-hover:opacity-80 transition-opacity duration-500" style={{animationDuration: '3s'}}></div>
-              <div className="absolute -inset-2 bg-green-300/20 rounded-xl blur-md opacity-40 animate-pulse" style={{animationDelay: '1s', animationDuration: '4s'}}></div>
-              
-              <h1 className="relative z-10 text-2xl font-bold text-center bg-gradient-to-r from-emerald-600 via-green-600 to-lime-600 bg-clip-text text-transparent 
-                           drop-shadow-lg animate-pulse hover:animate-none transition-all duration-500 hover:scale-105"
-                  style={{animationDuration: '4s'}}>
-                尋找我的森林夥伴
-              </h1>
-              
-              {/* 標題裝飾光效 */}
-              <div className="absolute -inset-1 border border-emerald-300/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"></div>
-            </div>
+            {/* 主要面板背景 - 統一復古暖色調，與question頁面一致 */}
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-50/80 via-orange-50/75 to-yellow-50/80 
+                            rounded-3xl shadow-2xl backdrop-blur-md border-2 border-amber-300/50
+                            before:absolute before:inset-2 before:border before:border-amber-400/40 before:rounded-2xl
+                            after:absolute after:inset-4 after:border after:border-yellow-300/30 after:rounded-xl
+                            transition-all duration-1000 ease-in-out"></div>
             
-            {/* 森林分隔線 */}
-            <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent animate-pulse" style={{animationDuration: '2s'}}></div>
+            {/* 光暈效果 */}
+            <div className="absolute -inset-4 bg-gradient-to-r from-amber-400/10 via-orange-300/15 to-yellow-400/10 
+                            rounded-full blur-xl animate-pulse opacity-50"></div>
             
-            {/* 查看結果按鈕 - 森林風格 */}
-            <div className="relative group">
-              {/* 按鈕多層光暈 */}
-              <div className="absolute -inset-6 bg-lime-400/30 rounded-full blur-xl opacity-60 animate-pulse group-hover:opacity-100 transition-opacity duration-300" style={{animationDuration: '2s'}}></div>
-              <div className="absolute -inset-4 bg-green-400/25 rounded-full blur-lg opacity-50 animate-pulse" style={{animationDelay: '0.5s', animationDuration: '2.5s'}}></div>
-              <div className="absolute -inset-2 bg-emerald-400/20 rounded-full blur-md opacity-40 animate-pulse" style={{animationDelay: '1s', animationDuration: '3s'}}></div>
+            {/* 內容區域 */}
+            <div className="relative z-10 p-8 pt-6">
               
-              {/* 按鈕旋轉光環 */}
-              <div className="absolute -inset-2 border border-emerald-400/40 rounded-full animate-spin opacity-30 group-hover:opacity-70 transition-opacity duration-300" style={{animationDuration: '3s'}}></div>
-              <div className="absolute -inset-1 border border-green-400/30 rounded-full animate-spin opacity-20 group-hover:opacity-60 transition-opacity duration-300" style={{animationDuration: '2s', animationDirection: 'reverse'}}></div>
-              
-              {/* 按鈕本體 */}
-              <button 
-                className="relative z-10 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 
-                         w-full min-w-[240px] rounded-2xl text-white py-4 px-6 text-base flex justify-center items-center font-bold 
-                         shadow-[0px_4px_0px_1px_#10B981] hover:shadow-[0px_6px_0px_1px_#059669] 
-                         cursor-pointer hover:translate-y-0.5 transition-all duration-300
-                         backdrop-blur-md border-2 border-white/30 overflow-hidden group/btn
-                         hover:scale-105 animate-pulse group-hover:animate-none"
-                onClick={nextStep}
-                style={{animationDuration: '3s'}}
-              >
-                {/* 按鈕內部光效 */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent 
-                              transform -skew-x-12 -translate-x-full group-hover/btn:translate-x-full 
-                              transition-transform duration-800 ease-out"></div>
+              {/* 標題區域 - 音樂揭曉效果，與question頁面風格一致 */}
+              <div className={`text-center mb-6 transition-all duration-600 ease-out delay-200
+                              ${isVisible && !isExiting ? 'opacity-100 transform translate-y-0 scale-100' : 
+                                'opacity-0 transform -translate-y-4 scale-75'}`}>
+                <div className="inline-block px-6 py-3 bg-gradient-to-r from-amber-600/90 to-orange-500/90 
+                              rounded-full shadow-lg border border-white/40 backdrop-blur-sm
+                              hover:scale-105 transition-all duration-300 relative group">
+                  {/* 裝飾光效 */}
+                  <div className="absolute -inset-1 bg-gradient-to-r from-amber-400/25 via-orange-300/30 to-yellow-400/25 
+                                rounded-full blur-md opacity-50 animate-pulse group-hover:opacity-80 transition-opacity duration-500"></div>
                 
-                {/* 按鈕文字 */}
-                <div className="relative z-10 flex items-center justify-center gap-2">
-                  <span className="text-xl animate-bounce group-hover/btn:animate-pulse" style={{animationDuration: '2s'}}>🌲</span>
-                  <span className="drop-shadow-md">查看結果</span>
-                  <span className="text-xl animate-bounce group-hover/btn:animate-pulse" style={{animationDuration: '2s', animationDelay: '0.5s'}}>🦝</span>
                 </div>
-                
-                {/* 按鈕邊緣效果 */}
-                <div className="absolute inset-0 rounded-2xl border-2 border-white/15 opacity-0 group-hover/btn:opacity-100 transition-all duration-500 animate-pulse"></div>
-              </button>
+              </div>
               
-              {/* 按鈕底部森林反射 */}
-              <div className="absolute bottom-0 left-1/2 w-32 h-2 bg-emerald-400/40 blur-md opacity-50 animate-pulse transform -translate-x-1/2 translate-y-3" style={{animationDuration: '2s'}}></div>
+              {/* 音樂分隔線 - 與question頁面風格一致 */}
+              <div className={`flex justify-center mb-6 transition-all duration-700 ease-out delay-300
+                              ${isVisible && !isExiting ? 'opacity-100 transform scale-x-100' : 
+                                'opacity-0 transform scale-x-0'}`}>
+                <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent animate-pulse" 
+                     style={{animationDuration: '2s'}}></div>
+              </div>
+              
+              {/* 查看結果按鈕 - 與question頁面按鈕風格一致 */}
+              <div className={`mb-6 transition-all duration-800 ease-out delay-400
+                              ${isVisible && !isExiting ? 'opacity-100 transform translate-y-0 scale-100' : 
+                                'opacity-0 transform translate-y-6 scale-90'}`}>
+                <button 
+                  className="group w-full relative overflow-hidden rounded-xl shadow-md 
+                           hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5
+                           active:translate-y-0 active:shadow-sm hover:scale-[1.02]"
+                  onClick={handleNextStep}
+                  type="button"
+                >
+                  {/* 統一復古按鈕背景 */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-amber-500/70 via-orange-500/70 to-yellow-500/70 
+                                group-hover:from-amber-400/80 group-hover:via-orange-400/80 group-hover:to-yellow-400/80 
+                                transition-all duration-300"></div>
+                  
+                  {/* 光澤效果 */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent 
+                                group-hover:via-white/25 transition-all duration-300
+                                translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+                  
+                  {/* 按鈕邊框 */}
+                  <div className="absolute inset-0 border border-white/25 rounded-xl 
+                                group-hover:border-white/40 transition-all duration-300"></div>
+                  
+                  {/* 按鈕內容 */}
+                  <div className="relative z-10 px-6 py-4 min-h-[64px] flex items-center justify-center">
+                    <div className="flex items-center justify-center gap-3">
+                      <span className="text-2xl animate-bounce group-hover:animate-pulse" style={{animationDuration: '2s'}}>🎵</span>
+                      <span className="text-white text-base font-bold drop-shadow-md group-hover:text-white transition-colors duration-300">
+                        查看結果
+                      </span>
+                      <span className="text-2xl animate-bounce group-hover:animate-pulse" style={{animationDuration: '2s', animationDelay: '0.5s'}}>🎶</span>
+                    </div>
+                  </div>
+                  
+                  {/* 裝飾效果 */}
+                  <div className="absolute top-3 left-4 w-1.5 h-1.5 rounded-full bg-white/30 animate-pulse"></div>
+                  <div className="absolute bottom-3 right-4 w-1 h-1 rounded-full bg-white/25 animate-ping"></div>
+                </button>
+              </div>
+              
+              {/* 音樂主旋律預告 - 與question頁面風格一致 */}
+              <div className={`text-center transition-all duration-900 ease-out delay-500
+                              ${isVisible && !isExiting ? 'opacity-100 transform translate-y-0' : 
+                                'opacity-0 transform translate-y-4'}`}>
+                <div className="inline-block px-4 py-2 bg-gradient-to-r from-amber-600/90 to-orange-600/90 
+                              rounded-full shadow-md border border-white/30 backdrop-blur-sm
+                              hover:scale-105 transition-all duration-300">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-1.5 h-1.5 bg-yellow-300 rounded-full animate-pulse"></div>
+                    <span className="text-white text-sm font-medium drop-shadow-sm">
+                      🎼 查看你的童年主旋律
+                    </span>
+                    <div className="w-1.5 h-1.5 bg-orange-300 rounded-full animate-pulse delay-100"></div>
+                  </div>
+                </div>
+              </div>
+              
             </div>
             
-            {/* 森林小動物預告 */}
-            <div className="text-center text-emerald-700 text-sm opacity-70 animate-pulse backdrop-blur-sm bg-white/10 rounded-xl py-2 px-4 border border-white/20" style={{animationDuration: '4s'}}>
-              🍄 準備遇見你的森林代表角色
-            </div>
-            
+            {/* 裝飾性音符 - 與question頁面一致 */}
+            <div className={`absolute -top-3 -left-3 text-amber-600/40 text-xl animate-bounce
+                            transition-all duration-1000 ease-out delay-1000
+                            ${isVisible && !isExiting ? 'opacity-100 transform rotate-0' : 
+                              'opacity-0 transform -rotate-45'}`}>♪</div>
+            <div className={`absolute -top-2 -right-4 text-orange-600/40 text-lg animate-pulse delay-300
+                            transition-all duration-1000 ease-out delay-1100
+                            ${isVisible && !isExiting ? 'opacity-100 transform rotate-0' : 
+                              'opacity-0 transform rotate-45'}`}>♫</div>
+            <div className={`absolute -bottom-4 -left-2 text-yellow-600/40 text-base animate-bounce delay-500
+                            transition-all duration-1000 ease-out delay-1200
+                            ${isVisible && !isExiting ? 'opacity-100 transform rotate-0' : 
+                              'opacity-0 transform -rotate-30'}`}>♬</div>
+            <div className={`absolute -bottom-3 -right-3 text-amber-600/40 text-lg animate-pulse delay-700
+                            transition-all duration-1000 ease-out delay-1300
+                            ${isVisible && !isExiting ? 'opacity-100 transform rotate-0' : 
+                              'opacity-0 transform rotate-30'}`}>♪</div>
           </div>
+
         </div>
-
-        {/* 四角森林裝飾 */}
-        <div className="absolute top-6 left-6 w-6 h-6 border-t-2 border-l-2 border-emerald-400/50 animate-pulse" style={{animationDuration: '4s'}}></div>
-        <div className="absolute top-6 right-6 w-6 h-6 border-t-2 border-r-2 border-green-400/50 animate-pulse" style={{animationDelay: '1s', animationDuration: '4s'}}></div>
-        <div className="absolute bottom-6 left-6 w-6 h-6 border-b-2 border-l-2 border-lime-400/50 animate-pulse" style={{animationDelay: '2s', animationDuration: '4s'}}></div>
-        <div className="absolute bottom-6 right-6 w-6 h-6 border-b-2 border-r-2 border-emerald-400/50 animate-pulse" style={{animationDelay: '3s', animationDuration: '4s'}}></div>
-        
-        {/* 中央森林印記 */}
-        <div className="absolute top-1/2 left-1/2 w-1 h-1 bg-white/60 rounded-full animate-ping transform -translate-x-1/2 -translate-y-1/2" style={{animationDuration: '1.5s'}}></div>
-
-      </MobileFrame>
-    </>
+      </div>
+    </MobileFrame>
   );
 }
