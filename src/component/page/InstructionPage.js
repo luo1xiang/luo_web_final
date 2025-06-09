@@ -117,7 +117,7 @@ export default function InstructionPage({nextStep}) {
                           'opacity-0 transform translate-y-8 scale-95'}`}>
           
           {/* 說明內容卡片 - 更緊湊的響應式設計 */}
-          <div className={`text-amber-900 font-medium text-center leading-relaxed tracking-wide relative bg-amber-50/90 backdrop-blur-md rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6 border-2 border-amber-200/80 shadow-2xl w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto group transition-all duration-700 ease-out delay-200
+          <div className={`text-amber-900 font-medium text-center leading-relaxed tracking-wide relative bg-amber-50/90 backdrop-blur-md rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 border-2 border-amber-200/80 shadow-2xl w-full max-w-sm sm:max-w-md md:max-w-lg mx-auto group transition-all duration-700 ease-out delay-200
                           ${isVisible && !isExiting ? 'opacity-100 transform translate-y-0 rotate-0' : 
                             isExiting ? 'opacity-0 transform translate-y-4 -rotate-2' :
                             'opacity-0 transform translate-y-12 rotate-2'}`}>
@@ -131,27 +131,39 @@ export default function InstructionPage({nextStep}) {
             {/* 復古邊框裝飾 */}
             <div className="absolute -inset-1 bg-gradient-to-br from-amber-900/10 via-transparent to-orange-900/10 rounded-xl sm:rounded-2xl border border-amber-600/20"></div>
             
-            {/* 音符圖標 - 簡化設計 */}
-            <div className={`mb-4 sm:mb-6 relative z-10 transition-all duration-600 ease-out delay-500 text-center
-                            ${isVisible && !isExiting ? 'opacity-100 transform translate-y-0 scale-100' : 
-                              'opacity-0 transform translate-y-6 scale-90'}`}>
-              <div className="text-3xl sm:text-4xl animate-pulse" style={{animationDuration: '3s'}}>🎵</div>
-            </div>
-            
-            {/* 說明內容 - 更緊湊的設計 */}
-            <div className={`space-y-3 sm:space-y-4 text-xs sm:text-sm mb-4 sm:mb-6 relative z-10 transition-all duration-700 ease-out delay-600
+            {/* 說明內容 - 優化排版 */}
+            <div className={`space-y-4 sm:space-y-5 text-sm sm:text-base mb-5 sm:mb-6 relative z-10 transition-all duration-700 ease-out delay-600
                             ${isVisible && !isExiting ? 'opacity-100 transform translate-x-0' : 
                               'opacity-0 transform -translate-x-8'}`}>
-              <div className="text-middle space-y-2 sm:space-y-3 bg-amber-100/70 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-amber-300/50 font-serif leading-relaxed shadow-lg">
-                <p className="text-amber-800 text-sm sm:text-base leading-relaxed">
-                  在午夜夢迴時醒來，發現身處莫名熟悉的唱片行。
+              <div className="text-center space-y-3 sm:space-y-4 bg-amber-100/70 rounded-lg sm:rounded-xl p-4 sm:p-5 border border-amber-300/50 font-serif leading-relaxed shadow-lg">
+                
+                {/* 第一段 */}
+                <p className="text-amber-800 font-medium text-sm sm:text-base leading-relaxed">
+                  只在午夜開張的唱片行
                 </p>
-                <p className="text-amber-800 text-sm sm:text-base leading-relaxed">
-                  牆上寫著：以記憶選曲。
+                
+                {/* 第二段 */}
+                <p className="text-amber-700 text-sm sm:text-base leading-relaxed">
+                  依序走入七個主題區
                 </p>
-                <p className="text-amber-800 text-sm sm:text-base leading-relaxed">
-                  點擊「開始」，探尋記憶原聲。
+                <p className="text-amber-700 text-sm sm:text-base leading-relaxed">
+                  每一區都陳列著只屬於你的記憶音軌
                 </p>
+                
+                {/* 第三段 */}
+                <p className="text-amber-800 text-sm sm:text-base leading-relaxed">
+                  請依記憶選擇音頻碎片
+                </p>
+                <p className="text-amber-700 text-sm sm:text-base leading-relaxed">
+                  你選擇的旋律，將拼出內心的聲音共振圖譜
+                </p>
+                
+                {/* 第四段 - 行動提示 */}
+                <div className="pt-2 border-t border-amber-300/30">
+                  <p className="text-amber-800 font-semibold text-sm sm:text-base leading-relaxed">
+                    點擊下方【開始】按鈕找尋你的童年音頻
+                  </p>
+                </div>
               </div>
             </div>
             
@@ -160,7 +172,7 @@ export default function InstructionPage({nextStep}) {
                             ${isVisible && !isExiting ? 'opacity-100 transform translate-y-0 scale-100' : 
                               'opacity-0 transform translate-y-4 scale-90'}`}>
               <button 
-                className="cursor-pointer hover:translate-y-1 transition-all duration-300 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-serif rounded-full px-5 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 shadow-2xl hover:shadow-3xl relative group overflow-hidden font-semibold text-base sm:text-lg flex items-center justify-center space-x-2 mx-auto border-2 border-amber-500/50 hover:border-amber-400/70 w-full max-w-xs"
+                className="cursor-pointer hover:translate-y-1 transition-all duration-300 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-serif rounded-full px-6 sm:px-8 md:px-10 py-3 sm:py-4 shadow-2xl hover:shadow-3xl relative group overflow-hidden font-semibold text-base sm:text-lg flex items-center justify-center mx-auto border-2 border-amber-500/50 hover:border-amber-400/70 w-full max-w-xs"
                 onClick={handleStartClick}
               >
                 {/* 按鈕復古光暈 */}
@@ -171,14 +183,13 @@ export default function InstructionPage({nextStep}) {
                 <div className="absolute -inset-1 border border-amber-400/15 rounded-full animate-spin opacity-0 group-hover:opacity-30 transition-opacity duration-300" style={{animationDuration: '3s'}}></div>
                 
                 <span className="relative z-10">開始</span>
-                <span className="text-lg sm:text-xl relative z-10 animate-pulse" style={{animationDuration: '2s'}}>♪</span>
                 
                 {/* 按鈕復古反射 */}
                 <div className="absolute bottom-0 left-1/2 w-20 sm:w-24 h-2 bg-amber-400/20 blur-md opacity-30 animate-pulse transform -translate-x-1/2 translate-y-2" style={{animationDuration: '4s'}}></div>
               </button>
             </div>
             
-            {/* 卡片周圍裝飾音符 - 響應式定位 */}
+            {/* 卡片周圍裝飾音符 - 響應式定位，移除 emoji */}
             <div className={`absolute -bottom-2 sm:-bottom-3 -left-2 sm:-left-3 text-amber-600/30 text-sm sm:text-base animate-bounce delay-500 transition-all duration-700 ease-out delay-1000
                             ${isVisible && !isExiting ? 'opacity-100 transform rotate-0' : 
                               'opacity-0 transform -rotate-30'}`} style={{animationDuration: '3.5s'}}>♬</div>

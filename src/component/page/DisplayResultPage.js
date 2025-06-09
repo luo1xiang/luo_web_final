@@ -153,19 +153,33 @@ export default function DisplayResultPage({nextStep}) {
               {/* 內容區域 */}
               <div className="relative z-10 p-8 pt-6">
                 
-                {/* 標題區域 - 音樂揭曉效果 + 增強动画 */}
-                <div className={`text-center mb-6 transition-all duration-800 ease-out delay-400
+                {/* 詩意文字區域 - 分行展示 */}
+                <div className={`text-center mb-8 space-y-4 transition-all duration-800 ease-out delay-400
                                 ${isVisible && !isExiting ? 'opacity-100 transform translate-y-0 scale-100' : 
                                   'opacity-0 transform -translate-y-8 scale-75'}`}>
-                  <div className="inline-block px-6 py-3 bg-gradient-to-r from-amber-600/90 to-orange-500/90 
-                                rounded-full shadow-lg border border-white/40 backdrop-blur-sm
-                                hover:scale-105 transition-all duration-300 relative group">
-                    {/* 裝飾光效 */}
-                    <div className="absolute -inset-1 bg-gradient-to-r from-amber-400/25 via-orange-300/30 to-yellow-400/25 
-                                  rounded-full blur-md opacity-50 animate-pulse group-hover:opacity-80 transition-opacity duration-500"></div>
-                    <h1 className="text-white font-bold text-lg drop-shadow-md leading-tight relative z-10">
-                      🎼 童年主旋律揭曉
-                    </h1>
+                  
+                  {/* 第一行 */}
+                  <div className="flex flex-col items-center space-y-2">
+                    <p className="text-amber-800/90 text-base leading-relaxed font-medium text-center">
+                      唱針劃過最後一圈，旋律已停止。
+                    </p>
+                  </div>
+                  
+                  {/* 第二行 */}
+                  <div className="flex flex-col items-center space-y-2">
+                    <p className="text-orange-800/90 text-base leading-relaxed font-medium text-center">
+                      你站在出口，懷中夾著剛刻好的黑膠唱片。
+                    </p>
+                  </div>
+                  
+                  {/* 第三行 */}
+                  <div className="flex flex-col items-center space-y-2">
+                    <p className="text-amber-700/90 text-base leading-relaxed font-medium text-center">
+                      它收錄的是你曾遺失的聲音──
+                    </p>
+                    <p className="text-orange-700/90 text-base leading-relaxed font-medium text-center">
+                      但現在，你選擇了聆聽。
+                    </p>
                   </div>
                 </div>
                 
@@ -204,12 +218,10 @@ export default function DisplayResultPage({nextStep}) {
                     
                     {/* 按鈕內容 */}
                     <div className="relative z-10 px-6 py-4 min-h-[64px] flex items-center justify-center">
-                      <div className="flex items-center justify-center gap-3">
-                        <span className="text-2xl animate-bounce group-hover:animate-pulse" style={{animationDuration: '2s'}}>🎵</span>
+                      <div className="flex items-center justify-center">
                         <span className="text-white text-base font-bold drop-shadow-md group-hover:text-white transition-colors duration-300">
-                          查看結果
+                          查看你的童年主旋律
                         </span>
-                        <span className="text-2xl animate-bounce group-hover:animate-pulse" style={{animationDuration: '2s', animationDelay: '0.5s'}}>🎶</span>
                       </div>
                     </div>
                     
@@ -219,7 +231,7 @@ export default function DisplayResultPage({nextStep}) {
                   </button>
                 </div>
                 
-                {/* 音樂主旋律預告 - 增強动画 */}
+                {/* 副標題提示 - 增強动画 */}
                 <div className={`text-center transition-all duration-1100 ease-out delay-700
                                 ${isVisible && !isExiting ? 'opacity-100 transform translate-y-0' : 
                                   'opacity-0 transform translate-y-6'}`}>
@@ -229,7 +241,7 @@ export default function DisplayResultPage({nextStep}) {
                     <div className="flex items-center space-x-2">
                       <div className="w-1.5 h-1.5 bg-yellow-300 rounded-full animate-pulse"></div>
                       <span className="text-white text-sm font-medium drop-shadow-sm">
-                        🎼 查看你的童年主旋律
+                        看看你的音頻人格
                       </span>
                       <div className="w-1.5 h-1.5 bg-orange-300 rounded-full animate-pulse delay-100"></div>
                     </div>
